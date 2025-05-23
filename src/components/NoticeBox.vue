@@ -27,34 +27,29 @@
     </ul>
   </div>
 </template>
-<script>
+
+<script setup>
+import { ref, onMounted } from 'vue';
 import { getNotices } from '@/api/api';
 
-export default {
-  name: 'NoticeBox',
-  data() {
-    return {
-      notices: [],
-      search: {
-        keyword: '',
-        type: '',
-        isActive: true
-      }
-    };
-  },
-  mounted() {
-    this.fetchNotices();
-  },
-  methods: {
-    async fetchNotices() {
-      try {
-        const res = await getNotices(0, 5, this.search);
-        this.notices = res.data.content;
-        console.log('--->', res.data);
-      } catch (error) {
-        console.error('공지사항 조회 실패:', error);
-      }
-    }
+const notices = ref([]);
+const search = ref({
+  keyword: '',
+  type: '',
+  isActive: true
+});
+
+const fetchNotices = async () => {
+  try {
+    const res = await getNotices(0, 5, search.value);
+    notices.value = res.data.content;
+    console.log('--->', res.data);
+  } catch (error) {
+    console.error('공지사항 조회 실패:', error);
   }
 };
+
+onMounted(() => {
+  fetchNotices();
+});
 </script>

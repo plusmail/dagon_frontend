@@ -10,8 +10,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'RecommendationList'
-};
+<script setup>
+// 현재는 동적인 상태나 로직이 없으므로 스크립트 내부는 비워둠
 </script>

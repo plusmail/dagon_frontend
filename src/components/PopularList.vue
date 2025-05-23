@@ -7,8 +7,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'PopularList'
-};
+<script setup>
+// 현재는 동적인 상태나 로직이 없기 때문에 script setup 내 코드 없음
 </script>

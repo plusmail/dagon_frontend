@@ -12,8 +12,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'ReservationBox'
-};
+<script setup>
+// 현재 동적 상태나 로직이 없으므로 비어 있습니다
 </script>

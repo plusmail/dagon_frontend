@@ -9,8 +9,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'SideButtons'
-};
+<script setup>
+// 현재는 동적 데이터나 로직이 없기 때문에 스크립트 내부는 비어 있습니다
 </script>

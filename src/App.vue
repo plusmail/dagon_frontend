@@ -15,25 +15,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import HeaderNav from './components/HeaderNav.vue';
 import ReservationBox from './components/ReservationBox.vue';
 import NoticeBox from './components/NoticeBox.vue';
 import SideButtons from './components/SideButtons.vue';
 import RecommendationList from './components/RecommendationList.vue';
 import PopularList from './components/PopularList.vue';
-
-export default {
-  name: 'FishingReservationPage',
-  components: {
-    HeaderNav,
-    ReservationBox,
-    NoticeBox,
-    SideButtons,
-    RecommendationList,
-    PopularList
-  }
-};
 </script>
 
 <style scoped>

@@ -15,8 +15,6 @@
   </nav>
 </template>
 
-<script>
-export default {
-  name: 'HeaderNav'
-};
+<script setup>
+// 현재는 상태나 로직이 없기 때문에 별도 스크립트 내용은 없습니다.
 </script>
