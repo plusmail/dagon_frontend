@@ -1,50 +1,87 @@
-import {createRouter, createWebHistory} from 'vue-router'
-import Login from '@/components/Login.vue'
-import AdminLogin from '@/components/AdminLogin.vue'
-import UserDashboard from '@/components/UserDashboard.vue'
-import AdminDashboard from '@/components/AdminDashboard.vue'
+// router/index.js
+import { createRouter, createWebHistory } from 'vue-router'
+
+// Layouts
+import MainLayout from '@/layouts/MainLayout.vue'
+import FishingLayout from '@/layouts/FishingLayout.vue'
+import SaltwaterLayout from '@/layouts/SaltwaterLayout.vue'
+import FreshwaterLayout from '@/layouts/FreshwaterLayout.vue'
+import BusLayout from '@/layouts/BusLayout.vue'
+import CommunityLayout from '@/layouts/CommunityLayout.vue'
+
+// Views
+import Home from '@/components/Home.vue'
+import FishingReportList from '@/components/FishingReportList.vue'
+import SaltwaterPage from '@/components/Saltwater.vue'
+import FreshwaterPage from '@/components/Freshwater.vue'
+import BusPage from '@/components/Bus.vue'
+import CommunityPage from '@/components/Community.vue'
+import AuthLayout from "@/layouts/AuthLayout.vue";
+import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 
 const routes = [
-    {path: '/login', component: Login},
-    {path: '/signup', component: Signup},
-    {path: '/admin/login', component: AdminLogin},
     {
-        path: '/dashboard',
-        component: UserDashboard,
-        meta: {requiresUser: true}
+        path: '/',
+        component: MainLayout,
+        children: [
+            { path: '', name: 'Home', component: Home }
+        ]
     },
     {
-        path: '/admin',
-        component: AdminDashboard,
-        meta: {requiresAdmin: true}
+        path: '/fishing-reports',
+        component: FishingLayout,
+        children: [
+            { path: '', name: 'FishingReports', component: FishingReportList }
+        ]
     },
     {
-        path: '/profile',
-        name: 'Profile',
-        component: () => import('@/components/Profile.vue'),
-        meta: {requiresUser: true}
+        path: '/saltwater',
+        component: SaltwaterLayout,
+        children: [
+            { path: '', name: 'Saltwater', component: SaltwaterPage }
+        ]
+    },
+    {
+        path: '/freshwater',
+        component: FreshwaterLayout,
+        children: [
+            { path: '', name: 'Freshwater', component: FreshwaterPage }
+        ]
+    },
+    {
+        path: '/bus',
+        component: BusLayout,
+        children: [
+            { path: '', name: 'Bus', component: BusPage }
+        ]
+    },
+    {
+        path: '/community',
+        component: CommunityLayout,
+        children: [
+            { path: '', name: 'Community', component: CommunityPage }
+        ]
+    },
+    {
+        path: '/login',
+        component: AuthLayout,
+        children: [
+            { path: '', name: 'Login', component: Login }
+        ]
+    },
+    {
+        path: '/signup',
+        component: AuthLayout,
+        children: [
+            { path: '', name: 'Signup', component: Signup }
+        ]
     }
-
 ]
 
 const router = createRouter({
     history: createWebHistory(),
     routes
-})
-
-// 인증 가드
-router.beforeEach((to, from, next) => {
-    const token = localStorage.getItem('token')
-    const role = localStorage.getItem('role') // "user" 또는 "admin"
-
-    if (to.meta.requiresAdmin && (!token || role !== 'admin')) {
-        next('/admin/login')
-    } else if (to.meta.requiresUser && (!token || role !== 'user')) {
-        next('/login')
-    } else {
-        next()
-    }
 })
 
 export default router
