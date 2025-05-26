@@ -1,15 +1,61 @@
 <template>
-  <div class="mt-8">
-    <h2 class="font-bold text-lg mb-4">추천 선사</h2>
-    <div class="grid grid-cols-4 gap-4">
-      <div v-for="n in 8" :key="n" class="border p-2 text-center">
-        <div class="font-semibold">추천 조항{{ n }}</div>
-        <div class="text-sm text-gray-400">추천 조항 이미지.jpg</div>
+  <div class="p-6">
+    <h1 class="text-2xl font-bold mb-4">조황정보</h1>
+
+    <div v-if="loading">조황 정보를 불러오는 중...</div>
+
+    <div v-else class="grid gap-4">
+      <div
+          v-for="report in reports"
+          :key="report.id"
+          class="border rounded-lg shadow p-4 flex flex-col md:flex-row gap-4"
+      >
+        <img
+            :src="report.image_url"
+            alt="조황 사진"
+            class="w-full md:w-48 h-48 object-cover rounded"
+        />
+        <div class="flex-1">
+          <h2 class="text-xl font-semibold">{{ report.boat_name }} - {{ report.fishing_point }}</h2>
+          <p class="text-gray-600">날짜: {{ formatDate(report.date) }}</p>
+          <p>어종: {{ report.fish_species }}</p>
+          <p>마릿수: {{ report.count }} 마리</p>
+          <p>메모: {{ report.memo }}</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-// 현재는 동적인 상태나 로직이 없으므로 스크립트 내부는 비워둠
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+
+const reports = ref([])
+const loading = ref(true)
+
+const fetchReports = async () => {
+  try {
+    const res = await axios.get('/api/fishing-report/get-all')
+    reports.value = res.data
+  } catch (e) {
+    console.error('조황정보 불러오기 실패:', e)
+  } finally {
+    loading.value = false
+  }
+}
+
+const formatDate = (dateStr) => {
+  return new Date(dateStr).toLocaleDateString()
+}
+
+onMounted(() => {
+  fetchReports()
+})
 </script>
+
+<style scoped>
+img {
+  border: 1px solid #ddd;
+}
+</style>
